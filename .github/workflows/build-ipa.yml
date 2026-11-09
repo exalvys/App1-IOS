@@ -1,3 +1,4 @@
+
 name: Build WelcomeApp IPA
 
 on:
@@ -26,6 +27,14 @@ jobs:
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO
 
+      - name: Verify app binary
+        run: |
+          echo "=== Type du fichier ==="
+          file build/Build/Products/Release-iphoneos/WelcomeApp.app/WelcomeApp
+
+          echo "=== Architecture du binaire ==="
+          xcrun lipo -info build/Build/Products/Release-iphoneos/WelcomeApp.app/WelcomeApp
+
       - name: Package IPA
         run: |
           mkdir -p Payload
@@ -38,4 +47,3 @@ jobs:
           name: WelcomeApp-IPA
           path: WelcomeApp.ipa
           if-no-files-found: error
-
